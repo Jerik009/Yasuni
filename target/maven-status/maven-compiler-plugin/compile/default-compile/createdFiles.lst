@@ -1,0 +1,15 @@
+espoch\edu\ec\practicetwo\data\Tours.class
+espoch\edu\ec\practicetwo\data\InterpretiveTours.class
+espoch\edu\ec\practicetwo\object\Assignment.class
+espoch\edu\ec\practicetwo\object\Device.class
+espoch\edu\ec\practicetwo\object\Tour.class
+espoch\edu\ec\practicetwo\PracticeTwo.class
+espoch\edu\ec\practicetwo\object\InterpretiveTour.class
+espoch\edu\ec\practicetwo\object\RegularTour.class
+espoch\edu\ec\practicetwo\object\Trail.class
+espoch\edu\ec\practicetwo\access\InterfaceRegularTour.class
+espoch\edu\ec\practicetwo\data\RegularTours.class
+espoch\edu\ec\practicetwo\object\Guide.class
+espoch\edu\ec\practicetwo\access\InterfaceInterpretiveTour.class
+espoch\edu\ec\practicetwo\access\InterfaceAssignment.class
+espoch\edu\ec\practicetwo\data\Assignments.class
