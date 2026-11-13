@@ -1,0 +1,153 @@
+@startuml
+' ================================================================
+' Diagrama de clases - Yasuní Explora
+' Organizing Guided Tours in Yasuní National Park
+' ================================================================
+
+skinparam packageStyle rectangle
+hide empty members
+
+package "com.mycompany.yasuni.enumeration" {
+    enum SortCriterion {
+        DISTANCE
+        TOTAL_DURATION
+    }
+}
+
+package "com.mycompany.yasuni.object" {
+    class Trail {
+        - name: String
+        - lengthKm: double
+        - estimatedMinutes: int
+        - enabled: boolean = true
+    }
+
+    class RegularTour {
+        + calculateTotalDuration(): int
+    }
+
+    class InterpretiveTour {
+        - educationalMinutes: int
+        + calculateTotalDuration(): int
+    }
+
+    class CommunicationDevice {
+        - code: String
+        - description: String
+        - available: boolean
+    }
+
+    class Guide {
+        - nationalId: String
+        - name: String
+        - available: boolean
+    }
+
+    class Tour {
+        - code: String
+        - name: String
+        - trails: Trail[]
+        - trailCount: int
+        - device: CommunicationDevice
+        - guide: Guide
+        - difficultyFactor: double = 1.0
+    }
+}
+
+package "com.mycompany.yasuni.access" {
+    interface TourService {
+        + assignResources(Tour, CommunicationDevice, Guide): void
+        + sortTours(Tour[], SortCriterion): void
+        + simulateDifficulty(Tour): void
+        + closeTrail(Tour, String): void
+        + showTour(Tour): String
+        + calculateTotalDistance(Tour): double
+        + calculateTotalDuration(Tour): int
+    }
+}
+
+package "com.mycompany.yasuni.development" {
+    class TourServices {
+        - tourDAO: TourDAO
+        - guideDAO: GuideDAO
+        - deviceDAO: CommunicationDeviceDAO
+    }
+
+    class RegularTourServices
+    class InterpretiveTourServices
+}
+
+package "com.mycompany.yasuni.dao" {
+    interface TourDAO {
+        + save(Tour): void
+        + findByCode(String): Tour
+        + findAll(): Tour[]
+        + update(Tour): void
+    }
+
+    interface GuideDAO {
+        + save(Guide): void
+        + findByNationalId(String): Guide
+        + findAll(): Guide[]
+        + update(Guide): void
+    }
+
+    interface CommunicationDeviceDAO {
+        + save(CommunicationDevice): void
+        + findByCode(String): CommunicationDevice
+        + findAll(): CommunicationDevice[]
+        + update(CommunicationDevice): void
+    }
+}
+
+package "com.mycompany.yasuni.dao.impl" {
+    class TourDAOImpl
+    class GuideDAOImpl
+    class CommunicationDeviceDAOImpl
+}
+
+package "com.mycompany.yasuni" {
+    class Yasuni
+}
+
+' ==================== RELACIONES ====================
+
+Tour <|-- RegularTour
+Tour <|-- InterpretiveTour
+
+TourServices <|-- RegularTourServices
+TourServices <|-- InterpretiveTourServices
+
+TourServices ..|> TourService
+RegularTourServices ..|> TourService
+InterpretiveTourServices ..|> TourService
+
+TourDAOImpl ..|> TourDAO
+GuideDAOImpl ..|> GuideDAO
+CommunicationDeviceDAOImpl ..|> CommunicationDeviceDAO
+
+Tour "1" o-- "0..*" Trail : contiene senderos
+Tour "1" o-- "0..1" CommunicationDevice : dispositivo
+Tour "1" o-- "0..1" Guide : guía
+
+TourServices ..> TourDAO : usa
+TourServices ..> GuideDAO : usa
+TourServices ..> CommunicationDeviceDAO : usa
+
+TourDAO ..> Tour
+GuideDAO ..> Guide
+CommunicationDeviceDAO ..> CommunicationDevice
+
+Yasuni ..> TourService : usa
+Yasuni ..> TourDAO : usa
+Yasuni ..> GuideDAO : usa
+Yasuni ..> CommunicationDeviceDAO : usa
+Yasuni ..> Tour : usa
+Yasuni ..> RegularTour : usa
+Yasuni ..> InterpretiveTour : usa
+Yasuni ..> Trail : usa
+Yasuni ..> CommunicationDevice : usa
+Yasuni ..> Guide : usa
+Yasuni ..> SortCriterion : usa
+
+@enduml
